@@ -1,0 +1,26 @@
+{
+  "roles": [
+    "weight_bulletin",
+    "province_table"
+  ],
+  "relation_field": "region",
+  "required_fields": {
+    "weight_bulletin": [
+      "region",
+      "basis",
+      "period",
+      "weight_kg"
+    ],
+    "province_table": [
+      "region",
+      "period",
+      "batch",
+      "weight_kg"
+    ]
+  },
+  "source_identity": [
+    "kind",
+    "id",
+    "revision"
+  ]
+}

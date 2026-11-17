@@ -1,8 +1,9 @@
 {
   "kind": "province_table",
-  "id": "province_table-B",
+  "id": "province_table-A",
   "revision": "v1",
-  "period": "2026-11-13",
-  "subject": "sample-A",
-  "state": "pending"
+  "region": "河北",
+  "period": "2026-W46",
+  "batch": "HB-01",
+  "weight_kg": 127.06
 }
