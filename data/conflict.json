@@ -1,0 +1,33 @@
+{
+  "allowed_origins": [
+    "https://local-source-002.example.test"
+  ],
+  "steps": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "https://local-source-002.example.test/records/weight_bulletin-A",
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "response": {
+        "file": "source-1.bin",
+        "status": 200,
+        "bytes": 155,
+        "sha256": "dbd40f45d1432393cac4fa90a2d97f740182f952417072b6ade51727d5489b5b"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "https://local-source-002.example.test/records/weight_bulletin-A",
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "response": {
+        "file": "source-conflict.bin",
+        "status": 200,
+        "bytes": 160,
+        "sha256": "b7ed6a5f6f7cc3dc646f101086821dd6b94a25bcd6b8a2d380836f8a51e7b5b5"
+      }
+    }
+  ]
+}

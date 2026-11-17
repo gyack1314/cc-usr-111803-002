@@ -1,0 +1,33 @@
+{
+  "allowed_origins": [
+    "https://local-source-002.example.test"
+  ],
+  "steps": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "https://local-source-002.example.test/records/weight_bulletin-A",
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "response": {
+        "file": "source-1.bin",
+        "status": 200,
+        "bytes": 155,
+        "sha256": "dbd40f45d1432393cac4fa90a2d97f740182f952417072b6ade51727d5489b5b"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "https://local-source-002.example.test/records/province_table-B",
+        "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "response": {
+        "file": "source-2.bin",
+        "status": 200,
+        "bytes": 151,
+        "sha256": "b9e555264bcc905ed02c68dae2385436c0f17153d3c449c82519507c40c0909a"
+      }
+    }
+  ]
+}
