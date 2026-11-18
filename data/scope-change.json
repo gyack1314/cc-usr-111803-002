@@ -1,0 +1,18 @@
+{
+  "allowed_origins": [
+    "https://local-source-002.example.test"
+  ],
+  "sources": [
+    {
+      "url": "https://local-source-002.example.test/records/weight_bulletin-A",
+      "kind": "weight_bulletin",
+      "required": true
+    },
+    {
+      "url": "https://local-source-002.example.test/records/origin_revision-A",
+      "kind": "origin_revision",
+      "required": true
+    }
+  ],
+  "steps": []
+}
