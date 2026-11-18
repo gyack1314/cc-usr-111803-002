@@ -15,8 +15,7 @@
     "province_table": [
       "region",
       "period",
-      "batch",
-      "weight_kg"
+      "rows"
     ],
     "origin_revision": [
       "region",

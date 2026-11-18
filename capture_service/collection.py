@@ -59,25 +59,47 @@ def coverage(connection, collection):
     """区分来源接收进度与已核实的业务资料范围。"""
     initialize(connection)
     rows = connection.execute(
-        'SELECT s.source_url,s.source_kind,s.required,COUNT(p.body_sha256) '
+        'SELECT s.source_url,s.source_kind,s.required,s.expected_revision,COUNT(p.body_sha256) '
         'FROM collection_sources s LEFT JOIN collection_progress p '
         'ON p.collection=s.collection AND p.source_url=s.source_url '
         'WHERE s.collection=? GROUP BY s.source_url,s.source_kind,s.required ORDER BY s.source_url',
         (collection,)).fetchall()
-    view = assess(entities(connection, collection))
+    domain_rows = entities(connection, collection)
+    view = assess(domain_rows)
     verified = {source for pair in view['matched_pairs']
                 for source in (pair['left_source'], pair['right_source'])}
     sources = []
-    for url, kind, required, received in rows:
+    for url, kind, required, expected_revision, received in rows:
+        source_entities = [row for row in domain_rows if row['source'] in {
+            digest for digest, in connection.execute(
+                'SELECT p.body_sha256 FROM collection_progress p JOIN receipts r '
+                'ON r.collection=p.collection AND r.body_sha256=p.body_sha256 '
+                'WHERE p.collection=? AND p.source_url=? AND r.source_url=?',
+                (collection, url, url))
+        }]
+        entity_versions = [row['version'] for row in source_entities]
+        current_revision_received = not expected_revision or expected_revision in entity_versions
+        verified_source = any(row['source'] in verified for row in source_entities)
+        if kind == 'origin_revision':
+            verified_source = any(
+                origin['type'] == 'origin_revision' and any(
+                    table['type'] == 'province_table' and
+                    table['payload']['region'] == origin['payload']['region'] and
+                    table['payload']['period'] == origin['payload']['period'] and
+                    any(item['batch'] == origin['payload']['old_origin'] and
+                        item['day'] >= origin['payload']['effective_on']
+                        for item in table['payload']['rows'])
+                    for table in domain_rows)
+                for origin in source_entities
+            )
         sources.append(dict(url=url, kind=kind, required=bool(required),
+                            expected_revision=expected_revision,
                             received_versions=received,
-                            verified=any(digest in verified for digest, in connection.execute(
-                                'SELECT p.body_sha256 FROM collection_progress p JOIN receipts r '
-                                'ON r.collection=p.collection AND r.body_sha256=p.body_sha256 '
-                                'WHERE p.collection=? AND p.source_url=? AND r.source_url=p.source_url',
-                                (collection, url)))))
-    return {'expected': len(rows), 'received': sum(bool(row[3]) for row in rows),
-            'missing_required': [row[0] for row in rows if row[2] and not row[3]],
+                            entity_versions=entity_versions,
+                            current_revision_received=current_revision_received,
+                            verified=(verified_source and current_revision_received)))
+    return {'expected': len(rows), 'received': sum(bool(row[4]) for row in rows),
+            'missing_required': [row[0] for row in rows if row[2] and not row[4]],
             'unverified_required': [item['url'] for item in sources
                                     if item['required'] and not item['verified']],
             'sources': sources}

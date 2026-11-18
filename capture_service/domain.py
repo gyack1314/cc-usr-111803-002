@@ -1,5 +1,6 @@
 """解析来源身份及本项目公开资料字段。"""
 import json
+from datetime import date
 from pathlib import Path
 CONTRACT=json.loads((Path(__file__).resolve().parents[1]/'docs'/'source-contract.json').read_text(encoding='utf-8'))
 def decode(raw,receipt):
@@ -8,6 +9,15 @@ def decode(raw,receipt):
     kind=doc['kind']
     if kind not in CONTRACT['roles']: raise ValueError('未知来源类型')
     if any(k not in doc for k in CONTRACT['required_fields'][kind]): raise ValueError('来源业务字段缺失')
+    if kind == 'province_table':
+        if not doc['rows'] or any(not all(k in item for k in ('day', 'batch', 'weight_kg'))
+                                  for item in doc['rows']):
+            raise ValueError('分省表记录缺少日期、批次或均重')
+        try:
+            for item in doc['rows']:
+                date.fromisoformat(item['day'])
+        except ValueError as error:
+            raise ValueError('分省表日期无效') from error
     return [{'type':kind,'id':doc['id'],'version':doc['revision'],'payload':{k:v for k,v in doc.items() if k not in ('kind','id','revision')}}]
 def assess(rows):
     """按当前双来源契约核对候选关联；后续来源事件仍待业务解释。"""

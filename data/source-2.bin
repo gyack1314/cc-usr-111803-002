@@ -4,6 +4,13 @@
   "revision": "v1",
   "region": "河北",
   "period": "2026-W46",
-  "batch": "HB-01",
-  "weight_kg": 127.06
+  "rows": [
+    {"day": "2026-11-09", "batch": "HB-01", "weight_kg": 127.0},
+    {"day": "2026-11-10", "batch": "HB-01", "weight_kg": 127.0},
+    {"day": "2026-11-11", "batch": "HB-01", "weight_kg": 127.0},
+    {"day": "2026-11-12", "batch": "HB-01", "weight_kg": 126.5},
+    {"day": "2026-11-13", "batch": "HB-01", "weight_kg": 126.5},
+    {"day": "2026-11-14", "batch": "HB-01", "weight_kg": 126.5},
+    {"day": "2026-11-15", "batch": "HB-01", "weight_kg": 127.0}
+  ]
 }

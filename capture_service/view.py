@@ -2,6 +2,8 @@
 from .ledger import entities
 from .domain import assess
 from .collection import coverage
+from .origin_weights import records as origin_records, weekly as origin_weekly
+from .origin_weights import comparison as origin_comparison
 
 def overview(c,collection):
     rows=entities(c,collection)
@@ -9,4 +11,7 @@ def overview(c,collection):
     result['collection']=collection
     result['records']=[{'type':r['type'],'id':r['id'],'version':r['version'],'source_sha256':r['source']} for r in rows]
     result['coverage']=coverage(c,collection)
+    result['origin_records']=origin_records(c,collection)
+    result['origin_weekly']=origin_weekly(c,collection)
+    result['origin_comparison']=origin_comparison(c,collection)
     return result
