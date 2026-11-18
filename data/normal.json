@@ -29,5 +29,17 @@
         "sha256": "49c56c7cfae4a0d9c5a4decd6be2aa337dc3311a5b0748b016f216e4e83ed69f"
       }
     }
+  ],
+  "sources": [
+    {
+      "url": "https://local-source-002.example.test/records/weight_bulletin-A",
+      "kind": "weight_bulletin",
+      "required": true
+    },
+    {
+      "url": "https://local-source-002.example.test/records/province_table-B",
+      "kind": "province_table",
+      "required": true
+    }
   ]
 }
