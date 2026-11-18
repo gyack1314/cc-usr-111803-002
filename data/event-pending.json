@@ -6,17 +6,20 @@
     {
       "url": "https://local-source-002.example.test/records/weight_bulletin-A",
       "kind": "weight_bulletin",
-      "required": true
+      "required": true,
+      "expected_revision": "v1"
     },
     {
       "url": "https://local-source-002.example.test/records/province_table-B",
       "kind": "province_table",
-      "required": true
+      "required": true,
+      "expected_revision": "v1"
     },
     {
       "url": "https://local-source-002.example.test/records/origin_revision-A",
       "kind": "origin_revision",
-      "required": true
+      "required": true,
+      "expected_revision": "v1"
     }
   ],
   "steps": []
