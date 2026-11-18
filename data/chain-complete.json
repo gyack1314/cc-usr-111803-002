@@ -1,0 +1,12 @@
+{
+  "allowed_origins": ["https://local-source-002.example.test"],
+  "steps": [
+    {"request":{"method":"GET","url":"https://local-source-002.example.test/records/origin_revision-chain-2","body_sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},"response":{"file":"source-chain-2.bin","status":200,"bytes":215,"sha256":"ed268be51dbf60d4fbeebbf4394238f2baef8257d8e3161f989e354895c93506"}}
+  ],
+  "sources": [
+    {"url":"https://local-source-002.example.test/records/weight_bulletin-A","kind":"weight_bulletin","required":true,"expected_revision":"v1"},
+    {"url":"https://local-source-002.example.test/records/province_table-B","kind":"province_table","required":true,"expected_revision":"v1"},
+    {"url":"https://local-source-002.example.test/records/origin_revision-chain-1","kind":"origin_revision","required":true,"expected_revision":"v1"},
+    {"url":"https://local-source-002.example.test/records/origin_revision-chain-2","kind":"origin_revision","required":true,"expected_revision":"v1"}
+  ]
+}

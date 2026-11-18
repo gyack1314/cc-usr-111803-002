@@ -1,0 +1,10 @@
+{
+  "kind": "origin_revision",
+  "id": "origin_revision-chain-2",
+  "revision": "v1",
+  "region": "河北",
+  "period": "2026-W46",
+  "old_origin": "HB-02",
+  "new_origin": "HB-03",
+  "effective_on": "2026-11-13"
+}
