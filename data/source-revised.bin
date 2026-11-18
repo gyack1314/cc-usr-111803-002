@@ -1,0 +1,9 @@
+{
+  "kind": "weight_bulletin",
+  "id": "weight_bulletin-A",
+  "revision": "v2",
+  "region": "河北",
+  "basis": "交易均重",
+  "period": "2026-W46",
+  "weight_kg": 128.12
+}
