@@ -1,6 +1,7 @@
 """按来源清单接收原文，持久保存待收范围与接收进度。"""
 from .ledger import entities
 from .domain import assess
+from .origin_weights import map_rows
 import json
 from pathlib import Path
 from .transport import Replay
@@ -55,6 +56,19 @@ def progress(connection, collection):
                 'SELECT source_url,body_sha256,received_at FROM collection_progress WHERE collection=? ORDER BY source_url',
                 (collection,))]
 
+def _origin_rule_verified(source_entities, domain_rows):
+    """产地规则生效后确有一段记录被它实际套用，才算已核实。
+
+    HB-02→HB-03 作用于原始 HB-01 行时，先经 HB-01→HB-02 才得到 HB-02；
+    因此要沿完整映射链核对，不能只看原始行是否写着旧代码。
+    """
+    if not source_entities:
+        return False
+    mapped = map_rows(domain_rows)
+    applied = {tuple(rule) for item in mapped for rule in item['applied_rules']}
+    return any((row['id'], row['version']) in applied for row in source_entities)
+
+
 def coverage(connection, collection):
     """区分来源接收进度与已核实的业务资料范围。"""
     initialize(connection)
@@ -81,17 +95,7 @@ def coverage(connection, collection):
         current_revision_received = not expected_revision or expected_revision in entity_versions
         verified_source = any(row['source'] in verified for row in source_entities)
         if kind == 'origin_revision':
-            verified_source = any(
-                origin['type'] == 'origin_revision' and any(
-                    table['type'] == 'province_table' and
-                    table['payload']['region'] == origin['payload']['region'] and
-                    table['payload']['period'] == origin['payload']['period'] and
-                    any(item['batch'] == origin['payload']['old_origin'] and
-                        item['day'] >= origin['payload']['effective_on']
-                        for item in table['payload']['rows'])
-                    for table in domain_rows)
-                for origin in source_entities
-            )
+            verified_source = _origin_rule_verified(source_entities, domain_rows)
         sources.append(dict(url=url, kind=kind, required=bool(required),
                             expected_revision=expected_revision,
                             received_versions=received,
