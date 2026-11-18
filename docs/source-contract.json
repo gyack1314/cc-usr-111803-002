@@ -1,7 +1,8 @@
 {
   "roles": [
     "weight_bulletin",
-    "province_table"
+    "province_table",
+    "origin_revision"
   ],
   "relation_field": "region",
   "required_fields": {
@@ -16,6 +17,13 @@
       "period",
       "batch",
       "weight_kg"
+    ],
+    "origin_revision": [
+      "region",
+      "period",
+      "old_origin",
+      "new_origin",
+      "effective_on"
     ]
   },
   "source_identity": [
